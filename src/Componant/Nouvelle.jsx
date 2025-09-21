@@ -1,5 +1,3 @@
-
-
 export default function Nouvelle({id, titre, resume, date, img}){
 
     return(
@@ -12,17 +10,6 @@ export default function Nouvelle({id, titre, resume, date, img}){
         <br/>
         <p>{resume}</p>
         <br/>
-                <div style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        gap: '10px',
-                        marginBottom: '20px'
-                }}>
-                        <button>Modifier</button>
-                        <button>Enlever</button>
-                        <button>Ajouter</button>
-                </div>
         </>
     )
 }
