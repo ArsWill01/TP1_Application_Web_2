@@ -40,3 +40,112 @@
 .read-the-docs {
   color: #888;
 }
+
+.btn-nouvelle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.cadre-nouvelle {
+  border: thick solid black;
+}
+
+.topnav {
+  border: thick solid black;
+  top: 0;
+  width: 100%;
+  text-align: left;
+  background-color: black;
+}
+
+.news-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.news-item {
+  flex-basis: calc(50% - 10px);
+  box-sizing: border-box;
+}
+
+.btn-ajouter {
+  display: flex;
+  text-align: left;
+}
+
+.menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+html, body{
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.select-container {
+  position: relative;
+  width: 250px;
+  font-family: sans-serif;
+  padding-bottom: 20px;
+}
+
+.selected-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #fff;
+}
+
+.option-content {
+  display: flex;
+  align-items: center;
+}
+
+.options-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  background-color: #fff;
+  z-index: 10;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.option-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+.option-item:hover {
+  background-color: #f0f0f0;
+}
+
+.user-icon {
+  margin-right: 10px;
+  color: #555;
+}
+
+.dropdown-icon {
+  transition: transform 0.2s;
+}
+
+.dropdown-icon.open {
+  transform: rotate(180deg);
+}

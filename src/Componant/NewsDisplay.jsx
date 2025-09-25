@@ -1,5 +1,7 @@
 import Nouvelle from "./Nouvelle.jsx";
 import React, {useState} from "react";
+import SearchBar from "./SearchBar.jsx";
+import Menu from "./Menu.jsx";
 
 let lastId = 10;
 
@@ -60,43 +62,8 @@ export default function NewsDisplay({newsState}) {
 
     return (
         <>
-            {news.map((nouvelle) => (
-                <React.Fragment key={nouvelle.id}>
-                    <Nouvelle {...nouvelle} />
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        gap: '10px',
-                        marginBottom: '20px'
-                    }}>
-                        {editingId === nouvelle.id ? (
-                            <form onSubmit={modifierNouvelle}>
-                                <input type="hidden" name="id" value={nouvelle.id} />
-                                <label htmlFor="titre">Titre de la nouvelle:</label><br />
-                                <input type="text" name="titre" defaultValue={nouvelle.titre} /><br />
-                                <label htmlFor="texte">Contenu de la nouvelle:</label><br />
-                                <input type="text" name="texte" defaultValue={nouvelle.texte} /><br />
-                                <label htmlFor="resume">Résumé de la nouvelle:</label><br />
-                                <input type="text" name="resume" defaultValue={nouvelle.resume} /><br />
-                                <label htmlFor="img">Src de l'image:</label><br />
-                                <input type="text" name="img" defaultValue={nouvelle.img} /><br />
-                                <label htmlFor="date">Date :</label><br />
-                                <input type="date" name="date" defaultValue={nouvelle.date.toString()} /><br />
-                                <button type='submit'>Enregistrer</button>
-                                <button type="button" onClick={handleCancelEdit}>Annuler</button>
-                            </form>
-                        ) : (
-                            <>
-                                <button onClick={() => handleToggleEditing(nouvelle.id)}>Modifier</button>
-                                <button onClick={() => handleErase(nouvelle.id)}>Enlever</button>
-                            </>
-                        )}
-                    </div>
-                </React.Fragment>
-            ))}
-
-            <button onClick={handleToggleAdding}>Ajouter</button>
+            <SearchBar></SearchBar>
+            <button onClick={handleToggleAdding} className={"btn-ajouter"}>Ajouter</button>
 
             {isAdding && (
                 <form onSubmit={ajouteNouvelle}>
@@ -113,6 +80,39 @@ export default function NewsDisplay({newsState}) {
                     <button type='submit'>Ajouter une nouvelle</button>
                 </form>
             )}
+            {!isAdding && (
+            <div className={"news-container"}>
+                {news.map((nouvelle) => (
+                    <div key={nouvelle.id} className={"news-item"}>
+                        <Nouvelle {...nouvelle}/>
+                        <div className={"btn-nouvelle"}>
+                            {editingId === nouvelle.id ? (
+                                <form onSubmit={modifierNouvelle}>
+                                    <input type="hidden" name="id" value={nouvelle.id}/>
+                                    <label htmlFor="titre">Titre de la nouvelle:</label><br/>
+                                    <input type="text" name="titre" defaultValue={nouvelle.titre}/><br/>
+                                    <label htmlFor="texte">Contenu de la nouvelle:</label><br/>
+                                    <input type="text" name="texte" defaultValue={nouvelle.texte}/><br/>
+                                    <label htmlFor="resume">Résumé de la nouvelle:</label><br/>
+                                    <input type="text" name="resume" defaultValue={nouvelle.resume}/><br/>
+                                    <label htmlFor="img">Src de l'image:</label><br/>
+                                    <input type="text" name="img" defaultValue={nouvelle.img}/><br/>
+                                    <label htmlFor="date">Date :</label><br/>
+                                    <input type="date" name="date" defaultValue={nouvelle.date.toString()}/><br/>
+                                    <button type='submit'>Enregistrer</button>
+                                    <button type="button" onClick={handleCancelEdit}>Annuler</button>
+                                </form>
+                            ) : (
+                                <>
+                                    <button onClick={() => handleToggleEditing(nouvelle.id)}>Modifier</button>
+                                    <button onClick={() => handleErase(nouvelle.id)}>Enlever</button>
+                                </>
+                            )}
+                        </div>
+                    </div>
+                ))}
+            </div>
+                )}
         </>
     );
 }
