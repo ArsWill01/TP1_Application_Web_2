@@ -50,24 +50,47 @@
 }
 
 .cadre-nouvelle {
-  border: thick solid black;
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 8px;
+  height: calc(100% - 70px);
+  display: flex;
+  flex-direction: column;
+}
+
+.cadre-nouvelle img {
+  max-width: 400px;
+  max-height: 400px;
+  height: auto;
+  display: block;
+  margin: 0 auto 10px auto;
+  border-radius: 4px;
+  object-fit: cover;
 }
 
 .topnav {
-  border: thick solid black;
+  border: none;
   top: 0;
   width: 100%;
   text-align: left;
   background-color: black;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
 }
 
 .news-container {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+  justify-content: flex-start;
+  align-items: stretch;
+  width: 100%;
 }
 
 .news-item {
+  min-height: 50px;
   flex-basis: calc(50% - 10px);
   box-sizing: border-box;
 }
@@ -149,3 +172,70 @@ html, body{
 .dropdown-icon.open {
   transform: rotate(180deg);
 }
+
+.nav-links-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #ccc;
+}
+
+.nav-link {
+  display: block;
+
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.nav-link:hover {
+  background-color: #f0f0f0;
+  color: #007bff;
+}
+
+.nav-link.active {
+  background-color: #fff;
+  color: #007bff;
+  border: 1px solid #ccc;
+  border-bottom: 1px solid #fff;
+  font-weight: bold;
+}
+
+
+.main-content-area {
+  min-height: 100vh;
+
+  padding: 20px;
+
+  min-width: 150vh;
+
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.search-history-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+
+.search-history-list-item {
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.search-history-list-item ul {
+  margin-top: 5px;
+  margin-bottom: 0;
+  padding-left: 20px;
+}
+

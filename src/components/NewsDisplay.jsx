@@ -1,14 +1,14 @@
 import Nouvelle from "./Nouvelle.jsx";
 import React, {useState} from "react";
 import SearchBar from "./SearchBar.jsx";
-import Menu from "./Menu.jsx";
 
 let lastId = 10;
 
-export default function NewsDisplay({newsState}) {
-    const [news, setNews] = newsState
+export default function NewsDisplay({ newsState: news, setNewsState: setNews, usersState: users }) {
+
     const [isAdding, setIsAdding] = useState(false);
     const [editingId, setEditingId] = useState(null);
+    const [searchCriteria, setSearchCriteria] = useState(['', '']);
 
     function handleToggleEditing(id) {
         setEditingId(id);
@@ -60,9 +60,27 @@ export default function NewsDisplay({newsState}) {
         setEditingId(null);
     }
 
+    const [searchText, filterDateString] = searchCriteria;
+
+    const lowercasedSearchText = searchText.toLowerCase().trim();
+    const dateToFilter = filterDateString ? new Date(filterDateString) : null;
+
+    const filteredNews = news.filter((nouvelle) => {
+
+        const textMatches = lowercasedSearchText === '' ||
+            nouvelle.resume.toLowerCase().includes(lowercasedSearchText);
+
+        const itemDate = new Date(nouvelle.date);
+
+        const dateMatches = !dateToFilter ||
+            itemDate >= dateToFilter;
+
+        return textMatches && dateMatches;
+    });
+
     return (
         <>
-            <SearchBar></SearchBar>
+            <SearchBar setSearchCriteria={setSearchCriteria}></SearchBar>
             <button onClick={handleToggleAdding} className={"btn-ajouter"}>Ajouter</button>
 
             {isAdding && (
@@ -82,7 +100,7 @@ export default function NewsDisplay({newsState}) {
             )}
             {!isAdding && (
             <div className={"news-container"}>
-                {news.map((nouvelle) => (
+                {filteredNews.map((nouvelle) => (
                     <div key={nouvelle.id} className={"news-item"}>
                         <Nouvelle {...nouvelle}/>
                         <div className={"btn-nouvelle"}>

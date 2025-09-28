@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {utilisateurs} from "./utilisateurs.js";
+import {utilisateurs} from "../Scripts/utilisateurs.js";
 import {FaCaretDown, FaUserCircle} from 'react-icons/fa';
 
 export default function Menu(){
