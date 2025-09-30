@@ -1,13 +1,15 @@
 import './App.css'
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {nouvelles} from "./Scripts/nouvelles.js";
 import {utilisateurs} from "./Scripts/utilisateurs.js";
 import NewsDisplay from "./components/NewsDisplay.jsx";
 import Menu from "./components/Menu.jsx";
 import Statistique from "./components/Statistique.jsx";
+import {LoggedUserContext} from "./components/LoggedUserContext.jsx";
 
 function App() {
     const [navId, setNavId] = useState(0);
+    const [currentLoggedUser, setCurrentLoggedUser] = useState(null);
 
     const [news, setNews] = useState(() => {
         const savedNews = localStorage.getItem("newsList");
@@ -45,29 +47,42 @@ function App() {
 
     return (
         <>
-            <Menu/>
-            <div className="nav-links-container">
-                <a
-                    onClick={() => setNavId(0)}
-                    className={`nav-link ${navId === 0 ? 'active' : ''}`}
-                >
-                    Nouvelles
-                </a>
-                <a
-                    onClick={() => setNavId(1)}
-                    className={`nav-link ${navId === 1 ? 'active' : ''}`}
-                >
-                    Statistiques
-                </a>
-            </div>
-            <div className="main-content-area">
-                {navId === 0 && (
-                    <NewsDisplay newsState={news} setNewsState={setNews} usersState={users}/>
+            <LoggedUserContext.Provider value={{
+                loggedUser: currentLoggedUser,
+                setLoggedUser: setCurrentLoggedUser
+            }}>
+                <Menu/>
+                {currentLoggedUser && (
+                    <>
+                        <div className="nav-links-container">
+                            <a
+                                onClick={() => setNavId(0)}
+                                className={`nav-link ${navId === 0 ? 'active' : ''}`}
+                            >
+                                Nouvelles
+                            </a>
+                            {currentLoggedUser && currentLoggedUser.type === "ADMIN" && (
+                                <a
+                                    onClick={() => setNavId(1)}
+                                    className={`nav-link ${navId === 1 ? 'active' : ''}`}
+                                >
+                                    Statistiques
+                                </a>
+                            )}
+                        </div>
+
+                        <div className="main-content-area">
+                            {navId === 0 && (
+                                <NewsDisplay newsState={news} setNewsState={setNews} usersState={users}/>
+                            )}
+                            {navId === 1 && (
+                                <Statistique newsState={news}/>
+                            )}
+                        </div>
+                    </>
+
                 )}
-                {navId === 1 && (
-                    <Statistique newsState={news}/>
-                )}
-            </div>
+            </LoggedUserContext.Provider>
         </>
     )
 }

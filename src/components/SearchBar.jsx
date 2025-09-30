@@ -51,15 +51,32 @@ export default function SearchBar({setSearchCriteria}) {
     return (
         <>
             <div className="topnav">
-                <input
-                    type="text"
-                    disabled={!isEditable}
-                    ref={textRef}
-                    placeholder="Search.."
-                />
+                <div className="search-group">
+                    <input
+                        type="text"
+                        disabled={!isEditable}
+                        ref={textRef}
+                        placeholder="Rechercher..."
+                    />
+                </div>
+
                 <input type="date" disabled={!isEditable} ref={dateRef}></input>
-                <button onClick={handleSearchClick} disabled={!isEditable}>Rechercher</button>
-                <button onClick={handleDeleteClick} disabled={isEditable}>Supprimer</button>
+
+                <button
+                    className="icon-btn search-btn"
+                    onClick={handleSearchClick}
+                    disabled={!isEditable}
+                >
+                    🔍
+                </button>
+
+                <button
+                    className="icon-btn delete-btn"
+                    onClick={handleDeleteClick}
+                    disabled={isEditable}
+                >
+                    ❌
+                </button>
             </div>
         </>
     )
