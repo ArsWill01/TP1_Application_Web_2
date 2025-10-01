@@ -45,7 +45,10 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  button{
+    margin-top: 8px;
+  }
 }
 
 .cadre-nouvelle {
@@ -55,6 +58,7 @@
   height: calc(100% - 70px);
   display: flex;
   flex-direction: column;
+  background-color: #e56b74;
 }
 
 .cadre-nouvelle img {
@@ -131,12 +135,12 @@
   min-height: 50px;
   flex-basis: calc(50% - 10px);
   box-sizing: border-box;
-  background-color: #e56b74;
 }
 
 .btn-ajouter {
   display: flex;
   text-align: left;
+  margin: 10px 0px 10px 0px;
 }
 
 .menu {
@@ -279,13 +283,4 @@ html, body{
   margin-top: 5px;
   margin-bottom: 0;
   padding-left: 20px;
-}
-
-
-:root {
-  --color-1: #abdeef;
-  --color-2: #c2d3f6;
-  --color-3: #e56b74;
-  --color-4: #3e849a;
-  --color-5: #e7d5ec;
 }

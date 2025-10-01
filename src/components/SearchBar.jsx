@@ -1,7 +1,10 @@
-import React, {useMemo, useRef, useState} from "react";
+import React, {useContext, useMemo, useRef, useState} from "react";
+import {LoggedUserContext} from "./LoggedUserContext.jsx";
 
 export default function SearchBar({setSearchCriteria}) {
     const [isEditable, setIsEditable] = useState(true);
+
+    const {loggedUser, setLoggedUser} = useContext(LoggedUserContext);
 
     const textRef = useRef('');
     const dateRef = useRef('');
@@ -23,6 +26,7 @@ export default function SearchBar({setSearchCriteria}) {
 
     function saveSearchCriteria(text, date) {
         const newSearchCriteria = {
+            idUser: loggedUser.id,
             textRecherche: text,
             dateRecherche: date,
             dateCreation: new Date().toISOString()
