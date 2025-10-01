@@ -1,4 +1,5 @@
 import './App.css'
+import './Modal.css'
 import React, {useContext, useEffect, useState} from "react";
 import {nouvelles} from "./Scripts/nouvelles.js";
 import {utilisateurs} from "./Scripts/utilisateurs.js";

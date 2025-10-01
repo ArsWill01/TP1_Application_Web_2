@@ -2,15 +2,13 @@ export default function Statistique({newsState: news}){
 
     const newsLengths = news.map(item => item.texte.length);
 
-    const newsDates = news.map(item => item.date);
-
+    const newsDates = news.map(item => new Date(item.date).getTime());
 
     const shortestLength = Math.min(...newsLengths);
     const longestLength = Math.max(...newsLengths);
 
     const totalLength = newsLengths.reduce((sum, length) => sum + length, 0);
     const averageLength = news.length > 0 ? (totalLength / news.length).toFixed(0) : 0;
-
 
     const oldestTimestamp = Math.min(...newsDates);
     const mostRecentTimestamp = Math.max(...newsDates);

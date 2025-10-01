@@ -1,10 +1,11 @@
 import Nouvelle from "./Nouvelle.jsx";
 import React, {useState} from "react";
 import SearchBar from "./SearchBar.jsx";
+import Modal from "./Modal.jsx";
 
 let lastId = 10;
 
-export default function NewsDisplay({ newsState: news, setNewsState: setNews, usersState: users }) {
+export default function NewsDisplay({newsState: news, setNewsState: setNews, usersState: users}) {
 
     const [isAdding, setIsAdding] = useState(false);
     const [editingId, setEditingId] = useState(null);
@@ -14,6 +15,7 @@ export default function NewsDisplay({ newsState: news, setNewsState: setNews, us
         setEditingId(id);
         setIsAdding(false);
     }
+
     function handleToggleAdding() {
         setIsAdding((oldAdding) => !oldAdding);
         setEditingId(null);
@@ -78,59 +80,69 @@ export default function NewsDisplay({ newsState: news, setNewsState: setNews, us
         return textMatches && dateMatches;
     });
 
+    const isModalOpen = isAdding || editingId !== null;
+    const nouvelleToEdit = news.find(n => n.id === editingId);
+
+    const currentNouvelleData = isAdding
+        ? {}
+        : nouvelleToEdit || {};
+
+    const formSubmitHandler = isAdding ? ajouteNouvelle : modifierNouvelle;
+    const modalCloseHandler = isAdding ? handleToggleAdding : handleCancelEdit;
+    const modalTitle = isAdding ? "Ajouter une nouvelle" : "Modification de la nouvelle";
+
+
     return (
         <>
             <SearchBar setSearchCriteria={setSearchCriteria}></SearchBar>
             <button onClick={handleToggleAdding} className={"btn-ajouter"}>Ajouter</button>
 
-            {isAdding && (
-                <form onSubmit={ajouteNouvelle}>
-                    <label htmlFor="titre">Titre de la nouvelle:</label><br/>
-                    <input type="text" name="titre"/><br/>
-                    <label htmlFor="texte">Contenu de la nouvelle:</label><br/>
-                    <input type="text" name="texte"/><br/>
-                    <label htmlFor="resume">Résumé de la nouvelle:</label><br/>
-                    <input type="text" name="resume"/><br/>
-                    <label htmlFor="img">Src de l'image:</label><br/>
-                    <input type="text" name="img"/><br/>
-                    <label htmlFor="date">Date :</label><br/>
-                    <input type="date" name="date"/><br/>
-                    <button type='submit'>Ajouter une nouvelle</button>
-                </form>
-            )}
-            {!isAdding && (
-            <div className={"news-container"}>
-                {filteredNews.map((nouvelle) => (
-                    <div key={nouvelle.id} className={"news-item"}>
-                        <Nouvelle {...nouvelle}/>
-                        <div className={"btn-nouvelle"}>
-                            {editingId === nouvelle.id ? (
-                                <form onSubmit={modifierNouvelle}>
-                                    <input type="hidden" name="id" value={nouvelle.id}/>
-                                    <label htmlFor="titre">Titre de la nouvelle:</label><br/>
-                                    <input type="text" name="titre" defaultValue={nouvelle.titre}/><br/>
-                                    <label htmlFor="texte">Contenu de la nouvelle:</label><br/>
-                                    <input type="text" name="texte" defaultValue={nouvelle.texte}/><br/>
-                                    <label htmlFor="resume">Résumé de la nouvelle:</label><br/>
-                                    <input type="text" name="resume" defaultValue={nouvelle.resume}/><br/>
-                                    <label htmlFor="img">Src de l'image:</label><br/>
-                                    <input type="text" name="img" defaultValue={nouvelle.img}/><br/>
-                                    <label htmlFor="date">Date :</label><br/>
-                                    <input type="date" name="date" defaultValue={nouvelle.date.toString()}/><br/>
-                                    <button type='submit'>Enregistrer</button>
-                                    <button type="button" onClick={handleCancelEdit}>Annuler</button>
-                                </form>
-                            ) : (
-                                <>
-                                    <button onClick={() => handleToggleEditing(nouvelle.id)}>Modifier</button>
-                                    <button onClick={() => handleErase(nouvelle.id)}>Enlever</button>
-                                </>
-                            )}
+            {!isModalOpen && (
+                <div className={"news-container"}>
+                    {filteredNews.map((nouvelle) => (
+                        <div key={nouvelle.id} className={"news-item"}>
+                            <Nouvelle {...nouvelle}/>
+                            <div className={"btn-nouvelle"}>
+                                <button onClick={() => handleToggleEditing(nouvelle.id)}>Modifier</button>
+                                <button onClick={() => handleErase(nouvelle.id)}>Enlever</button>
+                            </div>
                         </div>
-                    </div>
-                ))}
-            </div>
-                )}
+                    ))}
+                </div>
+            )}
+
+            {isModalOpen && (
+                <Modal onClose={modalCloseHandler}>
+                    <h3 className={"titremodnews"}>{modalTitle}</h3>
+
+                    <form onSubmit={formSubmitHandler}>
+                        {!isAdding && <input type="hidden" name="id" value={currentNouvelleData.id}/>}
+
+                        <label htmlFor="titre">Titre de la nouvelle:</label><br/>
+                        <input type="text" name="titre" defaultValue={currentNouvelleData.titre}/><br/>
+
+                        <label htmlFor="texte">Contenu de la nouvelle:</label><br/>
+                        <textarea rows="5" name="texte" defaultValue={currentNouvelleData.texte}></textarea><br/>
+
+                        <label htmlFor="resume">Résumé de la nouvelle:</label><br/>
+                        <textarea rows="5" name="resume" defaultValue={currentNouvelleData.resume}></textarea><br/>
+
+                        <label htmlFor="img">Src de l'image:</label><br/>
+                        <input type="text" name="img" defaultValue={currentNouvelleData.img}/><br/>
+
+                        <label htmlFor="date">Date :</label><br/>
+                        <input
+                            type="date"
+                            name="date"
+                            defaultValue={currentNouvelleData.date ? new Date(currentNouvelleData.date).toISOString().slice(0, 10) : ''}
+                        />
+                        <br/>
+
+                        <button type='submit'>{isAdding ? 'Ajouter une nouvelle' : 'Enregistrer'}</button>
+                        <button type="button" onClick={modalCloseHandler}>Annuler</button>
+                    </form>
+                </Modal>
+            )}
         </>
     );
 }
